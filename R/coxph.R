@@ -4,7 +4,7 @@ coxph <- function(formula, data, weights, subset, na.action,
         init, control, ties= c("efron", "breslow", "exact"),
         singular.ok =TRUE,  robust,
         model=FALSE, x=FALSE, y=TRUE,  tt, method=ties, 
-        id, cluster, istate, statedata, nocenter=c(-1, 0, 1), lambda = 0 ...) {
+        id, cluster, istate, statedata, nocenter=c(-1, 0, 1), lambda = 0, ...) {
 
     missing.ties <- missing(ties) & missing(method) #see later multistate sect
     ties <- match.arg(ties)
