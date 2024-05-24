@@ -4,7 +4,7 @@ coxph <- function(formula, data, weights, subset, na.action,
         init, control, ties= c("efron", "breslow", "exact"),
         singular.ok =TRUE,  robust,
         model=FALSE, x=FALSE, y=TRUE,  tt, method=ties, 
-        id, cluster, istate, statedata, nocenter=c(-1, 0, 1), ...) {
+        id, cluster, istate, statedata, nocenter=c(-1, 0, 1), lambda = 0 ...) {
 
     missing.ties <- missing(ties) & missing(method) #see later multistate sect
     ties <- match.arg(ties)
@@ -558,7 +558,7 @@ coxph <- function(formula, data, weights, subset, na.action,
             if (grepl('right', type))  
                 fit <- coxph.fit(X, Y, istrat, offset, init, control, 
                                  weights=weights, method=method, 
-                                 rname, nocenter=nocenter)
+                                 rname, nocenter=nocenter, lambda = lambda)
             else  fit <- agreg.fit(X, Y, istrat, offset, init, control, 
                                    weights=weights, method=method, 
                                    rname, nocenter=nocenter)
