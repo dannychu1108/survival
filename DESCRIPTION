@@ -1,6 +1,6 @@
 Title: Survival Analysis
 Priority: recommended
-Package: survival
+Package: survival_danny
 Version: 3.6-4
 Date: 2024-04-22
 Depends: R (>= 3.5.0)
