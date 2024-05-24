@@ -1,4 +1,4 @@
-useDynLib(survival_danny, .registration = TRUE)
+useDynLib(survivaldanny, .registration = TRUE)
 importFrom(splines, spline.des, ns)
 importFrom(Matrix, expm)
 importFrom(stats, aggregate, anova, approx, as.formula, coef, coefficients,
