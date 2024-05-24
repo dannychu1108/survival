@@ -122,7 +122,7 @@ void coxfit5_c(int *nusedx,   int *nvar,    int *strata,
 SEXP coxfit6(SEXP maxiter2,  SEXP time2,   SEXP status2, 
 	     SEXP covar2,    SEXP offset2, SEXP weights2,
 	     SEXP strata2,   SEXP method2, SEXP eps2, 
-	     SEXP toler2,    SEXP ibeta,    SEXP doscale2) ;
+	     SEXP toler2,    SEXP ibeta,    SEXP doscale2, SEXP lambda2) ;
 
 void coxmart(int   *sn,     int   *method,    double *time, 
 	     int   *status, int   * strata,   double *score, 
