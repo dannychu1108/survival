@@ -1,6 +1,6 @@
 coxph.fit <- function(x, y, strata, offset, init, control,
                       weights, method, rownames, resid=TRUE, 
-                      nocenter=NULL)
+                      nocenter=NULL, lambda = 0)
 {
     n <-  nrow(y)
     if (is.matrix(x)) nvar <- ncol(x)
@@ -68,7 +68,8 @@ coxph.fit <- function(x, y, strata, offset, init, control,
                      as.double(control$eps),
                      as.double(control$toler.chol),
                      as.vector(init),
-                     ifelse(zero.one, 0L, 1L))
+                     ifelse(zero.one, 0L, 1L),
+                     as.double(lambda))
 
     if (nullmodel) {
         if (resid) {
