@@ -64,17 +64,20 @@ static double *u;
 static double **covar, **cmat, **imat;  /*ragged arrays */
 
 static double coxfit6_iter(int nvar, int nused, int method, double *beta);
+static double signum(double value) {
+    if (value > 0) return 1.0;
+    if (value < 0) return -1.0;
+    return 0.0;
+}
 
-SEXP coxfit6(SEXP maxiter2,  SEXP time2,   SEXP status2, 
-	     SEXP covar2,    SEXP offset2, SEXP weights2,
-	     SEXP strata2,   SEXP method2, SEXP eps2, 
-	     SEXP toler2,    SEXP ibeta,    SEXP doscale2) {
-
-    int i,j, person;
+SEXP coxfit6(SEXP maxiter2, SEXP time2, SEXP status2, SEXP covar2, SEXP offset2, SEXP weights2,
+             SEXP strata2, SEXP method2, SEXP eps2, SEXP toler2, SEXP ibeta, SEXP doscale2, SEXP lambda2) {
+    int i, j, person;
     double temp, temp2;
     double *newbeta, *scale;
-    double halving =0, newlk;
+    double halving = 0, newlk;
     int notfinite;
+    double lambda = asReal(lambda2);  // Regularization parameter lambda
 
     /* copies of scalar input arguments */
     int     nused, nvar, maxiter;
@@ -228,13 +231,17 @@ SEXP coxfit6(SEXP maxiter2,  SEXP time2,   SEXP status2,
     */
     loglik[1] = loglik[0];   /* loglik[1] contains the best so far */
     for (i=0; i<nvar; i++) {
-	newbeta[i] = beta[i] + a[i];
+        double coef_update = beta[i] + a[i];
+        // Apply soft thresholding
+        double threshold = lambda * scale[i];  // Adjust the scale of lambda to match scale of coefficients
+        newbeta[i] = signum(coef_update) * fmax(0, fabs(coef_update) - threshold);
     }
 
     halving = 0;       /* =1 when in the midst of "step halving" */
     for (*iter=1; *iter<= maxiter; (*iter)++) {
 	R_CheckUserInterrupt();  
 	newlk = coxfit6_iter(nvar, nused, method, newbeta);
+    
 
 	/* am I done?
 	**   test for convergence and then update beta
